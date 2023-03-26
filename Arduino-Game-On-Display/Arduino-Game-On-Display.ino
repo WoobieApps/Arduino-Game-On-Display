@@ -11,7 +11,7 @@
 #define HEAD 0U
 #define LEFT_BUTTON 2
 #define RIGHT_BUTTON 3
-#define BUTTON_TIMEOUT 600
+#define BUTTON_TIMEOUT 500
 
 Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
@@ -30,9 +30,9 @@ struct Segment
   }
   void draw_segment()
   {
-    for(int i = -1; i <= 1 ; i++)
+    for(int i = 0; i <= 1 ; i++)
     {
-      for(int j = -1; j <= 1 ; j++)
+      for(int j = 0; j <= 1 ; j++)
       {
         display.drawPixel(x+i, y+j, SH110X_WHITE);
       }
@@ -52,9 +52,9 @@ struct Snake
     SnakeSegments[HEAD] = Segment();
     SnakeSegments[HEAD].segment_init(62, 30);
     SnakeSegments[HEAD+1] = Segment();
-    SnakeSegments[HEAD+1].segment_init(62, 34);
+    SnakeSegments[HEAD+1].segment_init(62, 32);
     SnakeSegments[HEAD+2] = Segment();
-    SnakeSegments[HEAD+2].segment_init(62, 38);
+    SnakeSegments[HEAD+2].segment_init(62, 32);
   }
   void draw_Snake()
   {
@@ -89,16 +89,16 @@ struct Snake
     switch(direction)
     {
       case LEFT:
-        SnakeSegments[HEAD].x -= 4;
+        SnakeSegments[HEAD].x -= 2;
       break;
       case RIGHT:
-        SnakeSegments[HEAD].x += 4;
+        SnakeSegments[HEAD].x += 2;
       break;
       case UP:
-        SnakeSegments[HEAD].y -= 4;
+        SnakeSegments[HEAD].y -= 2;
       break;
       case DOWN:
-        SnakeSegments[HEAD].y += 4;
+        SnakeSegments[HEAD].y += 2;
       break;
       default:
         // do nothing
@@ -112,7 +112,7 @@ struct Snake
     SnakeSegments[SnakeLength-1] = Segment();
     SnakeSegments[SnakeLength-1].segment_init(last.x, last.y);
   }
-  bool check_collision()
+  void check_collision()
   {
     for(unsigned int segment_id=HEAD+1; segment_id < SnakeLength; segment_id++)
     {
@@ -121,7 +121,7 @@ struct Snake
         GameOver = true;
       }
     }
-    if(SnakeSegments[HEAD].x < 2 || SnakeSegments[HEAD].x > 122 || SnakeSegments[HEAD].y < 2 || SnakeSegments[HEAD].y > 50)
+    if(SnakeSegments[HEAD].x < 2 || SnakeSegments[HEAD].x > 124 || SnakeSegments[HEAD].y < 2 || SnakeSegments[HEAD].y > 52)
     {
       GameOver = true;
     }
@@ -144,6 +144,7 @@ void change_directions();
 void check_treat();
 void do_move();
 void display_game_over();
+void display_begin();
 
 void setup()
 {
@@ -164,15 +165,15 @@ void loop()
   draw_GUI(CurrentPoints);
   draw_treat();
   change_directions();
-  do_move();
-  Snake.draw_Snake();
-  check_treat();
-  display.display();
-  delay(100);
+  Snake.check_collision();
   while(GameOver){
     display.clearDisplay();
     display_game_over();
   }
+  do_move();
+  Snake.draw_Snake();
+  check_treat();
+  display.display();
 }
 
 void display_game_over()
@@ -210,7 +211,6 @@ void do_move(){
   {
     Snake.move(CurrentDirection,false);
   }
-  Snake.check_collision();
 }
 
 void change_directions()
@@ -221,7 +221,7 @@ void change_directions()
   while(time_now-time_before < BUTTON_TIMEOUT)
   {
     if(digitalRead(LEFT_BUTTON) == LOW && !changeDone)
-    {
+    {  
       switch(CurrentDirection)
       {
         case LEFT:
@@ -443,13 +443,15 @@ void draw_GUI(int score)
   for(int x = 0; x < 128; x++)
   {
     display.drawPixel(x, 0, 1);
-    display.drawPixel(x, 54, 1);
+    display.drawPixel(x, 1, 1);
     display.drawPixel(x, 55, 1);
     display.drawPixel(x, 63, 1);
   }
   for(int y = 0; y < 64; y++)
   {
     display.drawPixel(0, y, 1);
+    display.drawPixel(1, y, 1);
+    display.drawPixel(126, y, 1);
     display.drawPixel(127, y, 1);
   }
   
@@ -529,14 +531,13 @@ void generate_treat()
 
 void draw_treat()
 {
-  for(int i = -1; i <= 1 ; i++)
+  for(int i = 0; i <= 1 ; i++)
   {
-    for(int j = -1; j <= 1 ; j++)
+    for(int j = 0; j <= 1 ; j++)
     {
       display.drawPixel(TreatCurrentX+i, TreatCurrentY+j, SH110X_WHITE);
     }
   }
-  display.drawPixel(TreatCurrentX,TreatCurrentY-2,1);
 }
 
 
