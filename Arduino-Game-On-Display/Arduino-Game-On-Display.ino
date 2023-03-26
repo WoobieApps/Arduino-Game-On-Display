@@ -187,7 +187,15 @@ void display_game_over()
   display.drawChar(stringX+12,26,'V',1,1,2);
   display.drawChar(stringX+24,26,'E',1,1,2);
   display.drawChar(stringX+36,26,'R',1,1,2);
-  
+
+  display.drawChar(stringX+8,42,'S',1,1,1);
+  display.drawChar(stringX+14,42,'C',1,1,1);
+  display.drawChar(stringX+20,42,'O',1,1,1);
+  display.drawChar(stringX+26,42,'R',1,1,1);
+  display.drawChar(stringX+32,42,'E',1,1,1);
+
+  draw_number(stringX+20, 54, CurrentPoints);
+
   display.display();
 }
 
