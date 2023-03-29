@@ -154,9 +154,16 @@ void setup()
   pinMode(RIGHT_BUTTON, INPUT_PULLUP);
 
   display.clearDisplay();
+  display_begin();
   display.display();
   randomSeed(analogRead(0));
   generate_treat();
+  while(digitalRead(LEFT_BUTTON) == HIGH || digitalRead(RIGHT_BUTTON) == HIGH);
+  display.clearDisplay();
+  Snake.draw_Snake();
+  draw_GUI(CurrentPoints);
+  display.display();
+  delay(2000);
 }
 
 void loop()
@@ -174,6 +181,16 @@ void loop()
   Snake.draw_Snake();
   check_treat();
   display.display();
+}
+
+void display_begin()
+{
+  int stringX = 46;
+  display.drawChar(stringX-12,10,'S',1,1,2);
+  display.drawChar(stringX,10,'N',1,1,2);
+  display.drawChar(stringX+12,10,'A',1,1,2);
+  display.drawChar(stringX+24,10,'K',1,1,2);
+  display.drawChar(stringX+36,10,'E',1,1,2);
 }
 
 void display_game_over()
@@ -457,69 +474,69 @@ void draw_GUI(int score)
   
   // scoreboard
   // S
-  display.drawPixel(2,61,1);
   display.drawPixel(3,61,1);
   display.drawPixel(4,61,1);
-  display.drawPixel(4,60,1);
+  display.drawPixel(5,61,1);
+  display.drawPixel(5,60,1);
+  display.drawPixel(5,59,1);
   display.drawPixel(4,59,1);
   display.drawPixel(3,59,1);
-  display.drawPixel(2,59,1);
-  display.drawPixel(2,58,1);
-  display.drawPixel(2,57,1);
-  display.drawPixel(3,57,1); 
+  display.drawPixel(3,58,1);
+  display.drawPixel(3,57,1);
   display.drawPixel(4,57,1); 
+  display.drawPixel(5,57,1); 
   // C
-  display.drawPixel(6,61,1);
   display.drawPixel(7,61,1);
   display.drawPixel(8,61,1);
-  display.drawPixel(6,60,1);
-  display.drawPixel(6,59,1);
-  display.drawPixel(6,58,1);
-  display.drawPixel(6,57,1);
+  display.drawPixel(9,61,1);
+  display.drawPixel(7,60,1);
+  display.drawPixel(7,59,1);
+  display.drawPixel(7,58,1);
   display.drawPixel(7,57,1);
   display.drawPixel(8,57,1);
+  display.drawPixel(9,57,1);
   // O
-  display.drawPixel(10,61,1);
   display.drawPixel(11,61,1);
   display.drawPixel(12,61,1);
-  display.drawPixel(10,60,1);
-  display.drawPixel(10,59,1);
-  display.drawPixel(10,58,1);
-  display.drawPixel(10,57,1);
+  display.drawPixel(13,61,1);
+  display.drawPixel(11,60,1);
+  display.drawPixel(11,59,1);
+  display.drawPixel(11,58,1);
   display.drawPixel(11,57,1);
   display.drawPixel(12,57,1);
-  display.drawPixel(12,58,1);
-  display.drawPixel(12,59,1);
-  display.drawPixel(12,60,1);
+  display.drawPixel(13,57,1);
+  display.drawPixel(13,58,1);
+  display.drawPixel(13,59,1);
+  display.drawPixel(13,60,1);
   // R
-  display.drawPixel(14,61,1);
+  display.drawPixel(15,61,1);
+  display.drawPixel(16,59,1);
+  display.drawPixel(17,61,1);
+  display.drawPixel(15,60,1);
   display.drawPixel(15,59,1);
-  display.drawPixel(16,61,1);
-  display.drawPixel(14,60,1);
-  display.drawPixel(14,59,1);
-  display.drawPixel(14,58,1);
-  display.drawPixel(14,57,1);
+  display.drawPixel(15,58,1);
   display.drawPixel(15,57,1);
-  display.drawPixel(16,58,1);
-  display.drawPixel(16,60,1);
+  display.drawPixel(16,57,1);
+  display.drawPixel(17,58,1);
+  display.drawPixel(17,60,1);
   // E
-  display.drawPixel(18,61,1);
   display.drawPixel(19,61,1);
   display.drawPixel(20,61,1);
-  display.drawPixel(18,60,1);
-  display.drawPixel(18,59,1);
+  display.drawPixel(21,61,1);
+  display.drawPixel(19,60,1);
   display.drawPixel(19,59,1);
   display.drawPixel(20,59,1);
-  display.drawPixel(18,58,1);
-  display.drawPixel(18,57,1);
+  display.drawPixel(21,59,1);
+  display.drawPixel(19,58,1);
   display.drawPixel(19,57,1);
   display.drawPixel(20,57,1);
+  display.drawPixel(21,57,1);
   // :
-  display.drawPixel(22,60,1);
-  display.drawPixel(22,58,1);
+  display.drawPixel(23,60,1);
+  display.drawPixel(23,58,1);
 
   // SCORE
-  draw_number(25,59,score);
+  draw_number(26,59,score);
   
 }
 
