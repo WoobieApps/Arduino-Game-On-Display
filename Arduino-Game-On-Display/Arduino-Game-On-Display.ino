@@ -1,8 +1,4 @@
-#include <SPI.h>
-#include <Wire.h>
-#include <Adafruit_GFX.h>
 #include <Adafruit_SH110X.h>
-#include <time.h>
 #include <stdlib.h>
 
 #define i2c_Address 0x3c
@@ -149,14 +145,16 @@ void display_begin();
 void setup()
 {
   Serial.begin(9600);
-  display.begin(i2c_Address, true);
+  randomSeed(analogRead(0));
+  
   pinMode(LEFT_BUTTON, INPUT_PULLUP);
   pinMode(RIGHT_BUTTON, INPUT_PULLUP);
 
+  display.begin(i2c_Address, true);
   display.clearDisplay();
   display_begin();
   display.display();
-  randomSeed(analogRead(0));
+  
   generate_treat();
   while(digitalRead(LEFT_BUTTON) == HIGH || digitalRead(RIGHT_BUTTON) == HIGH);
   display.clearDisplay();
