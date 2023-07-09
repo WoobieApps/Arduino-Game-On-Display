@@ -156,7 +156,7 @@ void setup()
   display.display();
   
   generate_treat();
-  while(digitalRead(LEFT_BUTTON) == HIGH || digitalRead(RIGHT_BUTTON) == HIGH);
+  while(digitalRead(LEFT_BUTTON) == HIGH && digitalRead(RIGHT_BUTTON) == HIGH);
   display.clearDisplay();
   Snake.draw_Snake();
   draw_GUI(CurrentPoints);
